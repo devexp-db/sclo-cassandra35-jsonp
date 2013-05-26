@@ -2,7 +2,7 @@
 %global namedversion %{version}%{?namedreltag}
 Name:          jsonp
 Version:       1.0
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       JSR 353 (JSON Processing) RI
 Group:         Development/Libraries
 License:       CDDL or GPLv2 with exceptions
@@ -17,7 +17,7 @@ Source1:       glassfish-LICENSE.txt
 BuildRequires: java-devel
 BuildRequires: jvnet-parent
 
-BuildRequires: glassfish-jax-rs-api
+BuildRequires: glassfish-jax-rs-api >= 2.0-2
 
 #test deps
 BuildRequires: junit
@@ -29,8 +29,9 @@ BuildRequires: maven-plugin-bundle
 BuildRequires: maven-resources-plugin
 BuildRequires: maven-surefire-plugin
 #BuildRequires: maven-surefire-provider-junit4
+BuildRequires: spec-version-maven-plugin
 
-Requires:      glassfish-jax-rs-api
+Requires:      glassfish-jax-rs-api >= 2.0-2
 
 Requires:      java
 BuildArch:     noarch
@@ -59,10 +60,8 @@ find . -name '*.class' -delete
 
 %pom_remove_plugin org.glassfish.copyright:glassfish-copyright-maven-plugin
 %pom_remove_plugin org.codehaus.mojo:wagon-maven-plugin
-%pom_remove_plugin org.glassfish.build:spec-version-maven-plugin
-%pom_remove_plugin org.glassfish.build:spec-version-maven-plugin api
 %pom_remove_plugin org.apache.maven.plugins:maven-dependency-plugin impl
-%pom_remove_plugin org.glassfish.build:spec-version-maven-plugin impl
+
 # disabled source and javadoc jars
 %pom_remove_plugin org.apache.maven.plugins:maven-source-plugin
 %pom_remove_plugin :maven-source-plugin api
@@ -72,8 +71,6 @@ find . -name '*.class' -delete
 %pom_remove_plugin :maven-source-plugin impl
 %pom_remove_plugin :maven-javadoc-plugin jaxrs
 
-%pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId ='maven-bundle-plugin']/pom:configuration/pom:instructions/pom:Bundle-Version"  api
-%pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId ='maven-bundle-plugin']/pom:configuration/pom:instructions/pom:Bundle-Version"  impl
 # disable apis copy
 %pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId ='maven-bundle-plugin']/pom:configuration/pom:instructions/pom:Export-Package"  impl
 
@@ -119,6 +116,9 @@ cp -pr target/site/apidocs/* %{buildroot}%{_javadocdir}/%{name}
 %doc LICENSE.txt
 
 %changelog
+* Sun May 26 2013 gil cattaneo <puntogil@libero.it> 1.0-2
+- rebuilt with spec-version-maven-plugin support
+
 * Tue May 07 2013 gil cattaneo <puntogil@libero.it> 1.0-1
 - update to 1.0
 
