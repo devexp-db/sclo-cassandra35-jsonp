@@ -2,9 +2,8 @@
 %global namedversion %{version}%{?namedreltag}
 Name:          jsonp
 Version:       1.0
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       JSR 353 (JSON Processing) RI
-Group:         Development/Libraries
 License:       CDDL or GPLv2 with exceptions
 URL:           http://java.net/projects/jsonp/
 # git clone git://java.net/jsonp~git jsonp
@@ -23,24 +22,16 @@ BuildRequires: glassfish-jax-rs-api >= 2.0-2
 BuildRequires: junit
 
 BuildRequires: maven-local
-BuildRequires: maven-compiler-plugin
-BuildRequires: maven-javadoc-plugin
 BuildRequires: maven-plugin-bundle
-BuildRequires: maven-resources-plugin
-BuildRequires: maven-surefire-plugin
 #BuildRequires: maven-surefire-provider-junit4
 BuildRequires: spec-version-maven-plugin
 
-Requires:      glassfish-jax-rs-api >= 2.0-2
-
-Requires:      java
 BuildArch:     noarch
 
 %description
 JSR 353: Java API for Processing JSON RI.
 
 %package javadoc
-Group:         Documentation
 Summary:       Javadoc for %{name}
 
 %description javadoc
@@ -79,43 +70,25 @@ sed -i 's/\r//' LICENSE.txt
 
 %build
 
-mvn-rpmbuild package javadoc:aggregate
+%mvn_file :javax.json-api %{name}/%{name}-api
+%mvn_file :javax.json %{name}/%{name}
+%mvn_file :%{name}-jaxrs %{name}/%{name}-jaxrs
+%mvn_build
 
 %install
+%mvn_install
 
-mkdir -p %{buildroot}%{_javadir}/%{name}
-install -m 644 api/target/javax.json-api-%{version}.jar \
-    %{buildroot}%{_javadir}/%{name}/%{name}-api.jar
-install -m 644 impl/target/javax.json-%{version}.jar \
-    %{buildroot}%{_javadir}/%{name}/%{name}.jar
-install -m 644 jaxrs/target/%{name}-jaxrs-%{version}.jar \
-    %{buildroot}%{_javadir}/%{name}/%{name}-jaxrs.jar
-
-mkdir -p %{buildroot}%{_mavenpomdir}
-install -pm 644 pom.xml %{buildroot}/%{_mavenpomdir}/JPP.%{name}-json.pom
-%add_maven_depmap JPP.%{name}-json.pom
-install -pm 644 api/pom.xml %{buildroot}/%{_mavenpomdir}/JPP.%{name}-%{name}-api.pom
-%add_maven_depmap JPP.%{name}-%{name}-api.pom %{name}/%{name}-api.jar
-install -pm 644 impl/pom.xml %{buildroot}/%{_mavenpomdir}/JPP.%{name}-%{name}.pom
-%add_maven_depmap JPP.%{name}-%{name}.pom %{name}/%{name}.jar
-install -pm 644 jaxrs/pom.xml %{buildroot}/%{_mavenpomdir}/JPP.%{name}-%{name}-jaxrs.pom
-%add_maven_depmap JPP.%{name}-%{name}-jaxrs.pom %{name}/%{name}-jaxrs.jar
-
-mkdir -p %{buildroot}%{_javadocdir}/%{name}
-cp -pr target/site/apidocs/* %{buildroot}%{_javadocdir}/%{name}
-
-%files
-%dir %{_javadir}/%{name}
-%{_javadir}/%{name}/%{name}*.jar
-%{_mavenpomdir}/JPP.%{name}-*.pom
-%{_mavendepmapfragdir}/%{name}
+%files -f .mfiles
 %doc LICENSE.txt
 
-%files javadoc
-%{_javadocdir}/%{name}
+%files javadoc -f .mfiles-javadoc
 %doc LICENSE.txt
 
 %changelog
+* Tue Jul 09 2013 gil cattaneo <puntogil@libero.it> 1.0-3
+- switch to XMvn
+- minor changes to adapt to current guideline
+
 * Sun May 26 2013 gil cattaneo <puntogil@libero.it> 1.0-2
 - rebuilt with spec-version-maven-plugin support
 
