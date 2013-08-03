@@ -2,7 +2,7 @@
 %global namedversion %{version}%{?namedreltag}
 Name:          jsonp
 Version:       1.0
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       JSR 353 (JSON Processing) RI
 License:       CDDL or GPLv2 with exceptions
 URL:           http://java.net/projects/jsonp/
@@ -85,6 +85,9 @@ sed -i 's/\r//' LICENSE.txt
 %doc LICENSE.txt
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Tue Jul 09 2013 gil cattaneo <puntogil@libero.it> 1.0-3
 - switch to XMvn
 - minor changes to adapt to current guideline
