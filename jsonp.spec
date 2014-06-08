@@ -2,7 +2,7 @@
 %global namedversion %{version}%{?namedreltag}
 Name:          jsonp
 Version:       1.0
-Release:       5%{?dist}
+Release:       6%{?dist}
 Summary:       JSR 353 (JSON Processing) RI
 License:       CDDL or GPLv2 with exceptions
 URL:           http://java.net/projects/jsonp/
@@ -85,6 +85,9 @@ sed -i 's/\r//' LICENSE.txt
 %doc LICENSE.txt
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.0-5
 - Use Requires: java-headless rebuild (#1067528)
 
