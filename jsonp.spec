@@ -64,6 +64,9 @@ find . -name '*.class' -delete
 cp -p %{SOURCE1} LICENSE.txt
 sed -i 's/\r//' LICENSE.txt
 
+%pom_xpath_set "pom:parent/pom:version" 1.0.4 api
+%pom_xpath_set "pom:parent/pom:version" 1.0.4 jaxrs
+
 %build
 
 %mvn_file :javax.json-api %{name}/%{name}-api
