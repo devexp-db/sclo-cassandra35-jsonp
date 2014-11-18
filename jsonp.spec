@@ -1,29 +1,25 @@
 %global namedreltag %{nil}
 %global namedversion %{version}%{?namedreltag}
 Name:          jsonp
-Version:       1.0
-Release:       6%{?dist}
+Version:       1.0.4
+Release:       1%{?dist}
 Summary:       JSR 353 (JSON Processing) RI
 License:       CDDL or GPLv2 with exceptions
 URL:           http://java.net/projects/jsonp/
 # git clone git://java.net/jsonp~git jsonp
-# (cd jsonp/ && git archive --format=tar --prefix=jsonp-1.0/ json-1.0 | xz > ../jsonp-1.0-src-git.tar.xz)
-Source0:       %{name}-%{namedversion}-src-git.tar.xz
+# (cd jsonp/ && git archive --format=tar --prefix=jsonp-1.0.4/ jsonp-1.0.4 | xz > ../jsonp-1.0.4.tar.xz)
+Source0:       %{name}-%{namedversion}.tar.xz
 # wget -O glassfish-LICENSE.txt https://svn.java.net/svn/glassfish~svn/tags/legal-1.1/src/main/resources/META-INF/LICENSE.txt
 # jsonp package don't include the license file
 Source1:       glassfish-LICENSE.txt
 
-BuildRequires: java-devel
 BuildRequires: jvnet-parent
-
 BuildRequires: glassfish-jax-rs-api >= 2.0-2
-
-#test deps
+# test deps
 BuildRequires: junit
 
 BuildRequires: maven-local
 BuildRequires: maven-plugin-bundle
-#BuildRequires: maven-surefire-provider-junit4
 BuildRequires: spec-version-maven-plugin
 
 BuildArch:     noarch
@@ -85,6 +81,9 @@ sed -i 's/\r//' LICENSE.txt
 %doc LICENSE.txt
 
 %changelog
+* Tue Nov 18 2014 gil cattaneo <puntogil@libero.it> 1.0.4-1
+- update to 1.0.4
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
