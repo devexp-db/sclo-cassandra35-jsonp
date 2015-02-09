@@ -2,7 +2,7 @@
 %global namedversion %{version}%{?namedreltag}
 Name:          jsonp
 Version:       1.0.4
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       JSR 353 (JSON Processing) RI
 License:       CDDL or GPLv2 with exceptions
 URL:           http://java.net/projects/jsonp/
@@ -67,23 +67,27 @@ sed -i 's/\r//' LICENSE.txt
 %pom_xpath_set "pom:parent/pom:version" %{namedversion} api
 %pom_xpath_set "pom:parent/pom:version" %{namedversion} jaxrs
 
-%build
-
 %mvn_file :javax.json-api %{name}/%{name}-api
 %mvn_file :javax.json %{name}/%{name}
 %mvn_file :%{name}-jaxrs %{name}/%{name}-jaxrs
+
+%build
+
 %mvn_build
 
 %install
 %mvn_install
 
 %files -f .mfiles
-%doc LICENSE.txt
+%license LICENSE.txt
 
 %files javadoc -f .mfiles-javadoc
-%doc LICENSE.txt
+%license LICENSE.txt
 
 %changelog
+* Mon Feb 09 2015 gil cattaneo <puntogil@libero.it> 1.0.4-2
+- introduce license macro
+
 * Tue Nov 18 2014 gil cattaneo <puntogil@libero.it> 1.0.4-1
 - update to 1.0.4
 
