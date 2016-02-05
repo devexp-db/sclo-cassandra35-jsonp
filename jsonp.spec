@@ -58,6 +58,8 @@ find . -name '*.class' -delete
 %pom_remove_plugin :maven-source-plugin impl
 %pom_remove_plugin :maven-javadoc-plugin jaxrs
 
+sed -i '/check-module/d' api/pom.xml impl/pom.xml
+
 # disable apis copy
 %pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId ='maven-bundle-plugin']/pom:configuration/pom:instructions/pom:Export-Package"  impl
 
